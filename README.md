@@ -27,11 +27,29 @@ No login, no friction — just ask the assistant and get smart answers.
    - GOOGLE_API_KEY
    - TWITTER_BEARER_TOKEN (optional)
 
+### Prerequisites
+- Node.js (v18+)
+- npm or pnpm
+- OpenAI + Google API keys
+
+### Setup
+
+```bash
+# Backend
+cd backend
+npm install
+cp .env.example .env
+npm run dev
+
+# Frontend
+cd frontend
+npm install
+npm run dev
 ## Contributing
 - PRs welcome
 - Use feature branches and submit clean commits
 - Keep code modular and scalable
-
+```
 ---
 
 **MVP Goal:** A working AI assistant with:
