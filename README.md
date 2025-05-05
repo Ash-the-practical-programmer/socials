@@ -1,38 +1,73 @@
-# socials.io — Your AI-Powered Social Research Assistant
+# socials.io - Your AI-Powered Social Research Assistant
 
-Ask. Discover. Summarize. Instantly.
+**Tagline:** Ask. Discover. Summarize. Instantly.
 
 ## Overview
-socials.io is a lightweight AI assistant that helps users:
+socials.io is a Vue.js-based AI assistant that helps users:
 - Discover public social profiles (e.g. GitHub, LinkedIn, Twitter)
 - Summarize trending topics across platforms (Twitter, Reddit, Google Trends)
 - Use a floating "Quick Ball" UI to interact instantly
 
-No login, no friction — just ask the assistant and get smart answers.
+No login, no friction â€” just ask the assistant and get smart answers.
+
+---
 
 ## Tech Stack
-- **Frontend:** Vue + TailwindCSS (PWA)
-- **Backend:** Node.js + Express
-- **AI:** OpenAI GPT-4 API
-- **Search:** Google Programmable Search Engine (CSE), Reddit API, Twitter API
 
-## Directory Structure
+**Frontend:**
+- Vue 3 + Vite
+- TailwindCSS
+- PWA-ready
+
+**Backend:**
+- Node.js + Express
+- REST API with JSON responses
+
+**AI & Search:**
+- OpenAI GPT-4 API
+- Google Programmable Search Engine
+- Reddit & Twitter APIs
+
+---
+
+## Project Structure
+
+```
+socials.io/
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   └── QuickBall.vue
+│   │   ├── App.vue
+│   │   └── main.js
+│   ├── .gitignore
+│   ├── package.json
+│   └── vite.config.js
+│
+├── backend/
+│   ├── routes/
+│   │   └── ai.js
+│   ├── index.js
+│   ├── .env.example
+│   ├── .gitignore
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
 ## Getting Started
-1. Clone the repo
-2. `cd frontend && npm install && npm run dev`
-3. `cd backend && npm install && npm run dev`
-4. Set up `.env` files with keys:
-   - OPENAI_API_KEY
-   - GOOGLE_CSE_ID
-   - GOOGLE_API_KEY
-   - TWITTER_BEARER_TOKEN (optional)
 
 ### Prerequisites
-- Node.js (v18+)
+- Node.js v18+
 - npm or pnpm
 - OpenAI + Google API keys
 
-### Setup
+### Setup Instructions
 
 ```bash
 # Backend
@@ -45,14 +80,36 @@ npm run dev
 cd frontend
 npm install
 npm run dev
-## Contributing
-- PRs welcome
-- Use feature branches and submit clean commits
-- Keep code modular and scalable
 ```
+
+### Required `.env` Variables
+
+```
+OPENAI_API_KEY=
+GOOGLE_CSE_ID=
+GOOGLE_API_KEY=
+TWITTER_BEARER_TOKEN=
+```
+
 ---
 
-**MVP Goal:** A working AI assistant with:
-- Profile fetch
-- Trend summarization
-- Quick Ball UI launcher
+## MVP Deliverables
+
+- [ ] AI-powered profile search via query
+- [ ] Trend summarization from multiple sources
+- [ ] Floating "Quick Ball" UI on any page
+- [ ] PWA functionality for installable access
+
+---
+
+## Contributing
+
+- Use GitHub Issues and PRs to track changes
+- Follow feature branching strategy
+- Keep code modular and components scoped
+
+---
+
+## License
+
+MIT â€” free to use, adapt, and extend.
