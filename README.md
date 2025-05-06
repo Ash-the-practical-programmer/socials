@@ -3,25 +3,29 @@
 **Tagline:** Ask. Discover. Summarize. Instantly.
 
 ## Overview
-socials.io is a Vue.js-based AI assistant that helps users:
+
+**socials.io** is a Nuxt 3 + FastAPI-based AI assistant that helps users:
+
 - Discover public social profiles (e.g. GitHub, LinkedIn, Twitter)
 - Summarize trending topics across platforms (Twitter, Reddit, Google Trends)
 - Use a floating "Quick Ball" UI to interact instantly
 
-No login, no friction â€” just ask the assistant and get smart answers.
+No login, no friction - just ask the assistant and get smart answers.
 
 ---
 
 ## Tech Stack
 
 **Frontend:**
-- Vue 3 + Vite
+- Nuxt 3 (Vue 3) with Nitro server
 - TailwindCSS
 - PWA-ready
+- SSR + API capabilities
 
 **Backend:**
-- Node.js + Express
-- REST API with JSON responses
+- Python FastAPI
+- REST endpoints for AI logic and scraping
+- Async processing and OpenAI integration
 
 **AI & Search:**
 - OpenAI GPT-4 API
@@ -34,28 +38,25 @@ No login, no friction â€” just ask the assistant and get smart answers.
 
 ```
 socials.io/
-├── frontend/
+├── nuxt-frontend/
+│   ├── assets/
+│   ├── components/
+│   ├── composables/
+│   ├── pages/
 │   ├── public/
-│   │   └── index.html
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   │   └── QuickBall.vue
-│   │   ├── App.vue
-│   │   └── main.js
-│   ├── .gitignore
-│   ├── package.json
-│   └── vite.config.js
+│   └── server/
+│       └── api/              # Optional Nuxt server routes
 │
-├── backend/
-│   ├── routes/
-│   │   └── ai.js
-│   ├── index.js
-│   ├── .env.example
-│   ├── .gitignore
-│   └── package.json
+├── ai-backend/
+│   ├── app/
+│   │   ├── main.py           # FastAPI entrypoint
+│   │   ├── routes/
+│   │   │   └── ai.py
+│   │   └── services/
+│   ├── requirements.txt
+│   └── .env.example
 │
-└── README.md
+└── docs/                     # Planning, prompts, brainstorming
 ```
 
 ---
@@ -63,26 +64,36 @@ socials.io/
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js v18+
+- Python 3.10+
 - npm or pnpm
-- OpenAI + Google API keys
+- OpenAI, Google API keys
 
 ### Setup Instructions
 
-```bash
-# Backend
-cd backend
-npm install
-cp .env.example .env
-npm run dev
+#### FastAPI Backend
 
-# Frontend
-cd frontend
+```bash
+cd ai-backend
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+pip install -r requirements.txt
+cp .env.example .env
+uvicorn app.main:app --reload
+```
+
+#### Nuxt Frontend
+
+```bash
+cd nuxt-frontend
 npm install
 npm run dev
 ```
 
-### Required `.env` Variables
+---
+
+## Required `.env` Variables (for Backend)
 
 ```
 OPENAI_API_KEY=
@@ -95,10 +106,11 @@ TWITTER_BEARER_TOKEN=
 
 ## MVP Deliverables
 
-- [ ] AI-powered profile search via query
+- [ ] AI-powered profile search via natural query
 - [ ] Trend summarization from multiple sources
-- [ ] Floating "Quick Ball" UI on any page
-- [ ] PWA functionality for installable access
+- [ ] Floating "Quick Ball" UI on every page
+- [ ] PWA-ready for installable access
+- [ ] Server-rendered SEO-friendly frontend
 
 ---
 
@@ -106,10 +118,10 @@ TWITTER_BEARER_TOKEN=
 
 - Use GitHub Issues and PRs to track changes
 - Follow feature branching strategy
-- Keep code modular and components scoped
+- Keep code modular and maintain backend/frontend separation
 
 ---
 
 ## License
 
-MIT â€” free to use, adapt, and extend.
+MIT - free to use, adapt, and extend.
