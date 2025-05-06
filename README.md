@@ -1,6 +1,6 @@
 # socials.io - Your AI-Powered Social Research Assistant
 
-**Tagline:** Ask. Discover. Summarize. Instantly.
+Ask. Discover. Summarize. Instantly.
 
 ## Overview
 
