@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://www.dropbox.com/scl/fi/zyfp61y5lrvhrmarfoomg/Screenshot_2025-05-07-23-27-48-614-edit_com.android.chrome.jpg?rlkey=p2rwz2go67ncy1vb05vssczy2&raw=1" alt="socials.io logo" width="200"/>
+</p>
+
 # socials.io - Your AI-Powered Social Research Assistant
 
 Ask. Discover. Summarize. Instantly.
