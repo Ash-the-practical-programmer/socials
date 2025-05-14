@@ -13,10 +13,10 @@
         
         <WaitlistForm /> 
 
-         <div class="mt-12 space-y-3 text-primary-content/80 text-sm">
-            <p>✓ <b>For Researchers & Analysts:</b> Uncover nuanced trends and comprehensive data.</p>
-            <p>✓ <b>For Journalists & Fact-Checkers:</b> Quickly verify claims and source information.</p>
-            <p>✓ <b>For Strategists & Marketers:</b> Understand true sentiment and inform your campaigns.</p>
+         <div class="mt-12 space-y-3 text-primary-content/80 text-sm text-left mx-auto">
+            <p><Check class="inline w-5 h-5 mr-2 shrink-0"/> <b>For Researchers & Analysts:</b> Uncover nuanced trends and comprehensive data.</p>
+            <p><Check class="inline w-5 h-5 mr-2 shrink-0"/> <b>For Journalists & Fact-Checkers:</b> Quickly verify claims and source information.</p>
+            <p><Check class="inline w-5 h-5 mr-2 shrink-0"/> <b>For Strategists & Marketers:</b> Understand true sentiment and inform your campaigns.</p>
         </div>
       </div>
     </div>
@@ -25,4 +25,5 @@
 
 <script setup>
 import WaitlistForm from './WaitlistForm.vue';
+import { Check } from '@iconoir/vue';
 </script>

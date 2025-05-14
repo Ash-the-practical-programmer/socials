@@ -27,9 +27,16 @@
         <!-- Feature 2: Bias-Aware Insights -->
         <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow transform hover:-translate-y-1 animate-fade-in-up animation-delay-400">
           <figure class="px-10 pt-10">
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-secondary">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-            </svg>
+            <!-- Option 6: Network with Unique Node -->
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-secondary">
+  <circle cx="12" cy="12" r="2.25" stroke-width="1.5" />
+  <circle cx="6.5" cy="7.5" r="1.5" opacity="0.6" />
+  <circle cx="17.5" cy="7.5" r="1.5" opacity="0.6" />
+  <circle cx="6.5" cy="16.5" r="1.5" opacity="0.6" />
+  <circle cx="17.5" cy="16.5" r="1.5" fill="currentColor" opacity="0.8" /> <!-- Highlighted different node -->
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 12L6.5 7.5M12 12L17.5 7.5M12 12L6.5 16.5M12 12L17.5 16.5" opacity="0.5"/>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 7.5L17.5 16.5M17.5 7.5L6.5 16.5" opacity="0.3"/>
+</svg>
           </figure>
           <div class="card-body items-center text-center">
             <h3 class="card-title text-base-content">Bias-Aware Insights</h3>
@@ -59,7 +66,7 @@
           </figure>
           <div class="card-body items-center text-center">
             <h3 class="card-title text-base-content">Transparent & Actionable</h3>
-            <p class="text-base-content/70 text-sm">Understand *how* insights are derived and claims verified, empowering confident decisions.</p>
+            <p class="text-base-content/70 text-sm">Understand <b>how</b> insights are derived and claims verified, empowering confident decisions.</p>
           </div>
         </div>
       </div>

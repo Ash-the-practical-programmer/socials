@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconoir/vue": "^7.11.0",
     "@mailerlite/mailerlite-nodejs": "^1.4.0",
     "@tailwindcss/vite": "^4.1.6",
     "daisyui": "^5.0.35",

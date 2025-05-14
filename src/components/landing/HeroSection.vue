@@ -14,7 +14,7 @@
         </span>
       </h1>
       <p class="text-lg sm:text-xl text-base-content/80 max-w-2xl mx-auto mb-10">
-        The intelligent social search AI that surfaces deep insights, verifies claims, and flags missing perspectives—all at the speed of trends.
+        The intelligent SocialSearch AI that surfaces deep insights, verifies claims, and flags missing perspectives—all at the speed of trends.
       </p>
       
       <a href="#waitlist" class="btn btn-primary btn-lg animate-subtle-pulse hover:shadow-xl transition-shadow">
