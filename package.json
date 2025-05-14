@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mailerlite/mailerlite-nodejs": "^1.4.0",
     "@tailwindcss/vite": "^4.1.6",
     "daisyui": "^5.0.35",
     "tailwindcss": "^4.1.6",

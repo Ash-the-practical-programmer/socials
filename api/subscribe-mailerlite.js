@@ -1,5 +1,5 @@
+import MailerLite from '@mailerlite/mailerlite-nodejs';
 // api/subscribe-mailerlite.js
-const fetch = require('node-fetch'); // Or use native fetch if Node.js v18+ on Vercel
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -20,73 +20,93 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Server configuration error.' });
   }
 
-  // MailerLite API v2 endpoint
-  const endpoint = 'https://connect.mailerlite.com/api/subscribers';
+  const mailerlite = new MailerLite({
+    api_key: MAILERLITE_API_KEY,
+  });
 
   try {
-    const mailerliteResponse = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${MAILERLITE_API_KEY}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
-        groups: [MAILERLITE_GROUP_ID],
-        status: 'active', // Use 'active' for direct subscription.
-                           // Use 'unconfirmed' if you have double opt-in enabled at the account/group level in MailerLite.
-        // You can add custom fields here if needed:
-        // fields: {
-        //   name: 'FirstName', // Make sure 'name' is a defined custom field in MailerLite
-        // }
-      }),
-    });
+    // Check if subscriber exists. The SDK doesn't have a direct "add to group if exists"
+    // We might try to add directly, or check first.
+    // Let's try adding/updating directly to the group.
+    // The `createOrUpdateSubscriber` method is more robust.
+    // However, the MailerLite SDK seems to focus on `subscribers.createOrUpdate` for general subscriber data
+    // and then `groups.assignSubscriber` for adding to a group.
 
-    const data = await mailerliteResponse.json();
-
-    if (!mailerliteResponse.ok) {
-      console.error('MailerLite API Error:', data);
-      let errorMessage = 'Could not subscribe. Please try again.';
-
-      // Handle common MailerLite errors (check their API docs for specifics)
-      if (data && data.errors) {
-        // Example: Check if email is already subscribed (might manifest differently)
-        // Often, if an email exists, MailerLite will update it (e.g., add to group) and return a 200 or 201.
-        // So, a non-ok response is likely a more significant issue.
-        const firstErrorKey = Object.keys(data.errors)[0];
-        if (firstErrorKey && data.errors[firstErrorKey] && data.errors[firstErrorKey][0]) {
-            errorMessage = data.errors[firstErrorKey][0];
-        } else if (data.message) {
-            errorMessage = data.message;
+    // Option 1: Create/Update subscriber, then add to group (more explicit)
+    let subscriber;
+    try {
+        const response = await mailerlite.subscribers.createOrUpdate({
+            email: email,
+            // fields: { name: 'Optional Name' }, // Add custom fields if needed
+            status: 'active' // 'active' or 'unconfirmed'
+        });
+        subscriber = response.data.data; // SDK wraps responses
+    } catch (error) {
+        // Handle cases where the subscriber might already exist but couldn't be updated for some reason
+        // or other API errors during create/update.
+        if (error.response && error.response.data && error.response.data.message) {
+            // Check if it's an "email has already been taken" but couldn't be updated,
+            // or if the SDK handles this by trying to fetch the existing one.
+            // For simplicity, if createOrUpdate fails with specific error, we might assume it exists.
+             if (error.response.status === 422 && error.response.data.message.toLowerCase().includes("email has already been taken")) {
+                 // If "taken", try to find the subscriber to get their ID
+                 try {
+                     const existingSubscriberResponse = await mailerlite.subscribers.find(email);
+                     subscriber = existingSubscriberResponse.data.data;
+                 } catch (findError) {
+                    console.error('MailerLite SDK: Error finding existing subscriber after create/update failed:', findError.response ? findError.response.data : findError.message);
+                    throw new Error(error.response.data.message || 'Could not process existing subscriber.');
+                 }
+             } else {
+                console.error('MailerLite SDK: Error creating/updating subscriber:', error.response ? error.response.data : error.message);
+                const errorMessage = (error.response && error.response.data && error.response.data.message) ? error.response.data.message : 'Failed to add or update subscriber.';
+                return res.status(error.response ? error.response.status : 500).json({ error: errorMessage });
+             }
+        } else {
+            console.error('MailerLite SDK: Unknown error creating/updating subscriber:', error.message);
+            return res.status(500).json({ error: 'Failed to add or update subscriber due to an unknown error.' });
         }
-      } else if (data && data.message) {
-        errorMessage = data.message;
-      }
-
-      // If subscriber already exists and is active in the group, MailerLite might return 200 OK with the subscriber data,
-      // or it might have specific error codes for certain conditions.
-      // The `POST /api/subscribers` endpoint generally creates or updates.
-      // If the user is already subscribed and active, it should just add them to the group if not already in it.
-      // A 422 error usually means validation issues.
-      if (mailerliteResponse.status === 422 && data.message && data.message.toLowerCase().includes("email has already been taken")) {
-         // This specific error message might indicate the email exists globally but not necessarily in your desired state.
-         // However, for a simple waitlist, if it's "taken", assume they're on some list.
-         return res.status(200).json({ message: "You're already on our list or your email is in use!" });
-      }
-
-
-      return res.status(mailerliteResponse.status).json({ error: errorMessage });
     }
 
-    // Success
-    return res.status(mailerliteResponse.status === 201 ? 201 : 200).json({ // 201 for new, 200 for update
-      message: 'Successfully subscribed! Keep an eye on your inbox.',
-      subscriber: data.data // MailerLite often wraps successful response in a `data` object
+    if (!subscriber || !subscriber.id) {
+        return res.status(500).json({ error: 'Could not retrieve subscriber ID.' });
+    }
+
+    // Now add the subscriber to the specified group
+    await mailerlite.groups.assignSubscriber(MAILERLITE_GROUP_ID, subscriber.id);
+
+    return res.status(200).json({ // 200 as the assign operation doesn't return content typically
+      message: 'Successfully subscribed and added to the group!',
+      subscriber: subscriber
     });
 
   } catch (error) {
-    console.error('Subscription function error:', error);
-    return res.status(500).json({ error: 'An unexpected error occurred on our end.' });
+    console.error('MailerLite SDK Error:', error.response ? error.response.data : error.message);
+    let errorMessage = 'Could not subscribe. Please try again.';
+    let statusCode = 500;
+
+    if (error.response && error.response.data) {
+        const errors = error.response.data.errors;
+        if (errors && typeof errors === 'object' && Object.keys(errors).length > 0) {
+            // Get the first error message from the errors object
+            const firstErrorField = Object.keys(errors)[0];
+            errorMessage = errors[firstErrorField][0] || error.response.data.message || errorMessage;
+        } else if (error.response.data.message) {
+            errorMessage = error.response.data.message;
+        }
+        statusCode = error.response.status || 500;
+    } else if (error.message) {
+        errorMessage = error.message;
+    }
+    
+    // Specific check for "subscriber already in group" - SDK might throw an error or MailerLite API might.
+    // The `assignSubscriber` often doesn't error if already assigned but just returns success.
+    // If it does error specifically for this, you could catch it.
+    // e.g. if (errorMessage.includes("already a member of this group")) {
+    //    return res.status(200).json({ message: "You are already in the waitlist group." });
+    // }
+
+
+    return res.status(statusCode).json({ error: errorMessage });
   }
 }
