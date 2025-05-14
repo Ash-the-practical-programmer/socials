@@ -7,7 +7,7 @@
           v-model="email"
           required
           placeholder="Enter your email address"
-          class="input input-bordered join-item w-full focus:input-primary"
+          class="input input-bordered join-item w-full focus:outline-none focus:ring-offset-2 focus:ring-offset-base-100 transition-shadow duration-200 ease-in-out"
           :disabled="isSubmitting || hasSubmitted"
           aria-label="Email for waitlist"
         />
