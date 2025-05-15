@@ -3,10 +3,10 @@
     <div class="container mx-auto px-4">
       <div class="text-center mb-12 sm:mb-16 animate-fade-in-up animation-delay-200">
         <h2 class="text-3xl sm:text-4xl font-bold text-base-content mb-4">
-          Beyond Keywords: True Social Intelligence
+          Tired of Drowning in Social Data?
         </h2>
         <p class="text-lg text-base-content/80 max-w-3xl mx-auto">
-          Traditional social listening misses the context, speed, and hidden biases. Our AI provides a complete, verified picture.
+          Manual social media analysis is time-consuming, overwhelming, and often misses the bigger picture. Socials cuts through the noise.
         </p>
       </div>
 
