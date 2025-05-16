@@ -1,8 +1,6 @@
-import express from 'express';
-import nodemailer from 'nodemailer';
+// File: /api/send-gmail.js
 
-const app = express();
-app.use(express.json()); // to parse JSON request body
+import nodemailer from 'nodemailer';
 
 const EMAIL = 'socialresearcherai@gmail.com';
 const APP_PASSWORD = 'ylye mrmk hpst sbdq';
@@ -12,7 +10,14 @@ const transporter = nodemailer.createTransport({
   auth: { user: EMAIL, pass: APP_PASSWORD },
 });
 
-app.post('/api/send-gmail', async (req, res) => {
+/**
+ * Vercel serverless function handler
+ */
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   const { emails } = req.body;
 
   if (!emails || typeof emails !== 'string') {
@@ -48,20 +53,10 @@ app.post('/api/send-gmail', async (req, res) => {
     try {
       await transporter.sendMail(mailOptions);
       results.push({ email, status: 'success' });
-      console.log(`✔️ Sent to ${email}`);
     } catch (error) {
       results.push({ email, status: 'error', message: error.message });
-      console.error(`❌ Failed to send to ${email}:`, error.message);
     }
   }
 
-  return res.status(200).json({
-    message: 'Process complete.',
-    results,
-  });
-});
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+  return res.status(200).json({ message: 'Process complete.', results });
+}
