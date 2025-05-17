@@ -65,15 +65,23 @@ export default async function handler(req, res) {
   }
 
   // Save emails to Google Sheets via Apps Script
-  try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ emails }),
-    });
-  } catch (err) {
-    console.error('Failed to save emails to Google Sheets:', err);
-  }
+  const response = await fetch(GOOGLE_SCRIPT_URL, {
+  method: 'POST',
+  headers: { 
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  body: JSON.stringify({ emails }),
+});
 
-  return res.status(200).json({ message: 'Process complete.', results });
+const text = await response.text();
+
+// Try parse JSON safely
+let data;
+try {
+  data = JSON.parse(text);
+} catch {
+  console.warn('Response is not valid JSON:', text);
+  data = null;
 }
+
