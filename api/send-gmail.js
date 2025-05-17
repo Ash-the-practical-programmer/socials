@@ -1,6 +1,5 @@
-// File: /api/send-gmail.js
-
 import nodemailer from 'nodemailer';
+import fetch from 'node-fetch';  // or any HTTP client you prefer
 
 const EMAIL = 'socialresearcherai@gmail.com';
 const APP_PASSWORD = 'ylye mrmk hpst sbdq';
@@ -10,18 +9,17 @@ const transporter = nodemailer.createTransport({
   auth: { user: EMAIL, pass: APP_PASSWORD },
 });
 
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxleXwfm6iywt2fHRjCIT-3M8l5eKOjwEy7zCvbR7DXqoJdNudFdStgrsy0of9gwKMC-A/exec';
+
 export default async function handler(req, res) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with your frontend domain if needed
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -64,6 +62,17 @@ export default async function handler(req, res) {
     } catch (error) {
       results.push({ email, status: 'error', message: error.message });
     }
+  }
+
+  // Save emails to Google Sheets via Apps Script
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ emails }),
+    });
+  } catch (err) {
+    console.error('Failed to save emails to Google Sheets:', err);
   }
 
   return res.status(200).json({ message: 'Process complete.', results });
