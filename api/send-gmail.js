@@ -1,23 +1,27 @@
 import nodemailer from 'nodemailer';
-import fetch from 'node-fetch';  // or any HTTP client you prefer
+import fetch from 'node-fetch';
 
 const EMAIL = 'socialresearcherai@gmail.com';
-const APP_PASSWORD = 'ylye mrmk hpst sbdq';
+const APP_PASSWORD = 'ylye mrmk hpst sbdq'; // secure this later
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  auth: { user: EMAIL, pass: APP_PASSWORD },
+  auth: {
+    user: EMAIL,
+    pass: APP_PASSWORD,
+  },
 });
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxleXwfm6iywt2fHRjCIT-3M8l5eKOjwEy7zCvbR7DXqoJdNudFdStgrsy0of9gwKMC-A/exec';
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    return res.status(200).end(); // Preflight request
   }
 
   if (req.method !== 'POST') {
@@ -30,6 +34,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Please provide a valid email string.' });
   }
 
+  // Split and validate emails
   const emailList = emails
     .split(',')
     .map(e => e.trim())
@@ -41,9 +46,10 @@ export default async function handler(req, res) {
 
   const results = [];
 
+  // Send confirmation emails one by one
   for (const email of emailList) {
     const mailOptions = {
-      from: "DeepSocial AI Waitlist!",
+      from: 'DeepSocial AI Waitlist!',
       to: email,
       subject: 'You’re on the list ✅',
       html: `
@@ -64,24 +70,35 @@ export default async function handler(req, res) {
     }
   }
 
-  // Save emails to Google Sheets via Apps Script
-  const response = await fetch(GOOGLE_SCRIPT_URL, {
-  method: 'POST',
-  headers: { 
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  },
-  body: JSON.stringify({ emails }),
-});
+  // Send email list to Google Sheet via Apps Script
+  let sheetResponse;
+  try {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ emails }),
+    });
 
-const text = await response.text();
+    const text = await response.text();
 
-// Try parse JSON safely
-let data;
-try {
-  data = JSON.parse(text);
-} catch {
-  console.warn('Response is not valid JSON:', text);
-  data = null;
+    try {
+      sheetResponse = JSON.parse(text);
+      console.log('Sheet Response:', sheetResponse);
+    } catch {
+      console.warn('Sheet returned non-JSON:', text);
+      sheetResponse = { raw: text };
+    }
+  } catch (err) {
+    console.error('Error posting to Google Script:', err.message);
+    sheetResponse = { error: err.message };
+  }
+
+  // Final response to client
+  return res.status(200).json({
+    emailResults: results,
+    sheetResponse,
+  });
 }
-
