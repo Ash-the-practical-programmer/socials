@@ -6,7 +6,7 @@
             Ready to Transform Your Social Research?
           </h2>
           <p class="text-lg text-primary-content/90 mb-10">
-            Join our exclusive waitlist to get early access to SocialAI Research Assistant. Be among the first to experience the future of social media intelligence.
+            Join our exclusive waitlist to get early access to {{ config.appName }} {{ config.category }}. Be among the first to experience the future of social media intelligence.
           </p>
           
           <WaitlistForm />
@@ -17,5 +17,7 @@
   </template>
   
   <script setup>
+  import { inject } from 'vue';
   import WaitlistForm from './WaitlistForm.vue';
+  const config = inject('config');
   </script>

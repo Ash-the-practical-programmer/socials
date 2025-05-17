@@ -7,13 +7,13 @@
           v-model="email"
           required
           placeholder="Enter your email address"
-          class="input input-bordered join-item w-full focus:outline-none focus:ring-offset-2 focus:ring-offset-base-100 transition-shadow duration-200 ease-in-out"
+          class="input text-[18px] input-bordered  input-sm join-item w-full focus:outline-none focus:ring-offset-2 focus:ring-offset-base-100 transition-shadow duration-200 ease-in-out"
           :disabled="isSubmitting || hasSubmitted"
           aria-label="Email for waitlist"
         />
         <button
           type="submit"
-          class="btn btn-accent join-item min-w-[120px]"
+          class="btn btn-sm btn-accent join-item min-w-[120px] text-[18px]"
           :class="{ 'loading': isSubmitting }"
           :disabled="isSubmitting || hasSubmitted"
         >

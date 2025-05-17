@@ -18,7 +18,7 @@
           Your intelligent assistant for navigating the complex world of social media data. Discover trends, understand sentiment, and get actionable insights, effortlessly.
         </p>
         
-        <a href="#waitlist" class="btn btn-primary btn-lg animate-subtle-pulse hover:shadow-xl transition-shadow">
+        <a href="#waitlist" class="btn btn-primary btn-md text-[19px] animate-subtle-pulse hover:shadow-xl transition-shadow">
           Join the Early Access Waitlist
         </a>
         

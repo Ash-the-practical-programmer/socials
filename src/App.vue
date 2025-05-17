@@ -21,7 +21,7 @@ import AIChatResearchDemo from './components/landing/AIChatResearchDemo.vue';
 import CallToActionWaitlistSection from './components/landing/CallToActionWaitlistSection.vue';
 
 onMounted(() => {
-  document.title = 'SocialAI Research | AI-Powered Social Insights';
+  document.title = 'DeepSocial AI | AI-Powered Social Insights';
 });
 </script>
 

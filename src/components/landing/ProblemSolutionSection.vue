@@ -6,7 +6,7 @@
           Tired of Drowning in Social Data?
         </h2>
         <p class="text-lg text-base-content/80 max-w-3xl mx-auto">
-          Manual social media analysis is time-consuming, overwhelming, and often misses the bigger picture. Socials cuts through the noise.
+          Manual social media analysis is time-consuming, overwhelming, and often misses the bigger picture. {{ config.appName }} {{ config.category }} cuts through the noise.
         </p>
       </div>
 
@@ -73,3 +73,7 @@
     </div>
   </section>
 </template>
+<script setup lang="ts">
+import { inject } from 'vue';
+const config = inject('config');
+</script>
