@@ -34,56 +34,52 @@
   </template>
   
   <script setup>
-  import { ref } from 'vue';
-  
-  const email = ref('');
-  const isSubmitting = ref(false);
-  const hasSubmitted = ref(false);
-  const message = ref('');
-  const messageType = ref(''); // 'success' or 'error'
-  
-  const handleSubmit = async () => {
-    if (!email.value || hasSubmitted.value) return;
-  
-    if (!/^\S+@\S+\.\S+$/.test(email.value)) {
-      message.value = "Please enter a valid email address.";
-      messageType.value = 'error';
-      return;
+import { ref } from 'vue';
+
+const email = ref('');
+const isSubmitting = ref(false);
+const hasSubmitted = ref(false);
+const message = ref('');
+const messageType = ref('');
+
+const handleSubmit = async () => {
+  if (!email.value || hasSubmitted.value) return;
+
+  if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+    message.value = "Please enter a valid email address.";
+    messageType.value = 'error';
+    return;
+  }
+
+  isSubmitting.value = true;
+  message.value = '';
+  messageType.value = '';
+
+  try {
+    const response = await fetch('https://socials-waitlist.vercel.app/api/send-gmail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ emails: email.value }) // ← MATCHES curl example
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || `Server error: ${response.status}`);
     }
-  
-    isSubmitting.value = true;
-    message.value = '';
-    messageType.value = '';
-  
-    try {
-      // Update the path to your new serverless function name
-      const response = await fetch('/api/subscribe-mailerlite', { // <--- UPDATED PATH
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email.value }),
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        // Use error message from serverless function if available
-        throw new Error(data.error || `Server error: ${response.status}`);
-      }
-      
-      // Handle cases where MailerLite might return 200 for an update (e.g., already exists but added to group)
-      message.value = data.message || "You're on the list! We'll email you with updates. 🎉";
-      messageType.value = 'success';
-      hasSubmitted.value = true;
-      // email.value = ''; // Optionally clear email field
-    } catch (error) {
-      console.error('Submission error:', error);
-      message.value = error.message || 'An unexpected error occurred. Please try again.';
-      messageType.value = 'error';
-      hasSubmitted.value = false; // Allow retry on error
-    } finally {
-      isSubmitting.value = false;
-    }
-  };
-  </script>
+
+    message.value = data.message || "Successfully added to waitlist!";
+    messageType.value = 'success';
+    hasSubmitted.value = true;
+  } catch (error) {
+    console.error('Error submitting email:', error);
+    message.value = error.message || 'Submission failed. Please try again.';
+    messageType.value = 'error';
+    hasSubmitted.value = false;
+  } finally {
+    isSubmitting.value = false;
+  }
+};
+</script>
