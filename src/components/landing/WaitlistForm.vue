@@ -40,7 +40,7 @@ const email = ref('');
 const isSubmitting = ref(false);
 const hasSubmitted = ref(false);
 const message = ref('');
-const messageType = ref(''); // 'success' or 'error'
+const messageType = ref('');
 
 const handleSubmit = async () => {
   if (!email.value || hasSubmitted.value) return;
@@ -61,7 +61,7 @@ const handleSubmit = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ emails: email.value }),
+      body: JSON.stringify({ emails: email.value }) // ← MATCHES curl example
     });
 
     const data = await response.json();
@@ -70,12 +70,12 @@ const handleSubmit = async () => {
       throw new Error(data.error || `Server error: ${response.status}`);
     }
 
-    message.value = data.message || "You're on the list! We'll email you with updates. 🎉";
+    message.value = data.message || "Successfully added to waitlist!";
     messageType.value = 'success';
     hasSubmitted.value = true;
   } catch (error) {
-    console.error('Submission error:', error);
-    message.value = error.message || 'An unexpected error occurred. Please try again.';
+    console.error('Error submitting email:', error);
+    message.value = error.message || 'Submission failed. Please try again.';
     messageType.value = 'error';
     hasSubmitted.value = false;
   } finally {
