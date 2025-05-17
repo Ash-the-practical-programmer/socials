@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 
   for (const email of emailList) {
     const mailOptions = {
-      from: `"Project Team" <${EMAIL}>`,
+      from: "DeepSocial AI Waitlist!",
       to: email,
       subject: 'You’re on the list ✅',
       html: `
