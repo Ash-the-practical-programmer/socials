@@ -1,0 +1,30 @@
+{
+  "name": "deepsocial",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@tailwindcss/vite": "^4.1.7",
+    "daisyui": "^5.0.35",
+    "dompurify": "^3.2.5",
+    "next": "^15.3.2",
+    "nodemailer": "^7.0.3",
+    "tailwindcss": "^4.1.7",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/dompurify": "^3.0.5",
+    "@types/nodemailer": "^6.4.17",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.2.8"
+  }
+}

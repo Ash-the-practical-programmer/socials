@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "noEmit": true, // If you are using Vite, Vite handles transpilation.
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"] // Example path alias
+    },
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts", // This line makes sure .d.ts files are included
+    "src/**/*.tsx",
+    "src/**/*.vue"   // Important for Volar/VueDX to work correctly
+    // If your shim file is elsewhere, add its path here, e.g., "src/shims-vue.d.ts"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }] // If you have a tsconfig for Node scripts (common in Vite)
+}
