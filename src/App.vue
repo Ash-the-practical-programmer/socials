@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-base-100 text-base-content antialiased">
+  <div class="flex flex-col min-h-screen">
     <AppHeader />
     <main class="flex-grow">
       <router-view v-slot="{ Component }">
