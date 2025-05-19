@@ -1,11 +1,11 @@
 <template>
     <div class="container mx-auto px-4 py-8 sm:py-12 prose prose-invert max-w-3xl">
         <h1>Privacy Policy for DeepSocial AI</h1>
-        <p>Last updated: [Date]</p>
+        <p>Last updated: 19-05-2025</p>
 
         <p>Welcome to DeepSocial AI ("us", "we", or "our"). We are committed to protecting your personal information
             and your right to privacy. If you have any questions or concerns about this privacy notice, or our practices
-            with regards to your personal information, please contact us at [Your Contact Email].</p>
+            with regards to your personal information, please contact us at info@deepsocial.in.</p>
 
         <h2>1. INFORMATION WE COLLECT</h2>
         <p>As a user of our waitlist or future services, we may collect the following information:</p>
@@ -43,7 +43,7 @@
 
         <h2>10. CONTACT US</h2>
         <p>If you have any questions about this Privacy Policy, please contact us:</p>
-        <p>By email: [Your Contact Email]</p>
+        <p>By email: info@deepsocial.in</p>
         <!-- Add other contact methods if applicable -->
     </div>
 </template>

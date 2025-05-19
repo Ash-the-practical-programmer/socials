@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto px-4 py-8 sm:py-12 prose prose-invert max-w-3xl">
         <h1>Terms of Service for DeepSocial AI</h1>
-        <p>Last updated: [Date]</p>
+        <p>Last updated: 19-05-2025</p>
 
         <p>Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the DeepSocial AI
             website and any services offered by DeepSocial AI (the "Service") operated by [Your Company Name/Your Name]
@@ -105,7 +105,7 @@
 
         <h2>12. Contact Us</h2>
         <p>If you have any questions about these Terms, please contact us:</p>
-        <p>By email: [Your Contact Email]</p>
+        <p>By email: info@deepsocial.in</p>
         <!-- Add other contact methods if applicable -->
     </div>
 </template>

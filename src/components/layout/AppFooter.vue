@@ -7,7 +7,7 @@
                 </router-link>
             </div>
             <p class="text-sm">
-                © {{ new Date().getFullYear() }} SocialAI Research. All rights reserved.
+                © {{ new Date().getFullYear() }} DeepSocial AI. All rights reserved.
             </p>
             <div class="mt-3 space-x-4 text-xs">
                 <router-link to="/privacy-policy" class="hover:text-primary">Privacy Policy</router-link>
