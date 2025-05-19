@@ -80,7 +80,7 @@ const config = inject('config');
                             <p class="mt-1 text-xs"><strong class="text-[#eaccd3]">Bias Flag:</strong> Most claims
                                 originate from a
                                 single competitor's blog post. Seeking independent reviews and user testimonials.</p>
-                            <button class="btn btn-xs btn-[#eaccd3] mt-2 text-accent-content">Show Verification
+                            <button class="btn btn-xs btn-secondary mt-2 text-accent-content">Show Verification
                                 Trail</button>
                         </div>
                     </div>
