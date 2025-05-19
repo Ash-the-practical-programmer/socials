@@ -1,6 +1,7 @@
-<!-- src/components/AiChat.vue -->
+<!-- frontend/src/components/AiChat.vue -->
 <script setup lang="ts">
 import { ref, inject, nextTick, onMounted } from 'vue';
+import axios from 'axios';
 import AiAvatar from './icons/AiAvatar.vue'; // Adjust path as needed
 
 // Inject config with fallback
@@ -18,6 +19,9 @@ const isTyping = ref(false);
 // User input state
 const userInput = ref('');
 
+// Backend API URL
+const API_URL = 'http://localhost:8000/chat';
+
 // Scroll to bottom of chat
 const scrollToBottom = () => {
   nextTick(() => {
@@ -28,13 +32,28 @@ const scrollToBottom = () => {
   });
 };
 
+// Fetch AI response from backend
+const fetchAiResponse = async (message: string, isInitial: boolean) => {
+  try {
+    const response = await axios.post(API_URL, {
+      message,
+      is_initial: isInitial,
+    });
+    return response.data.response;
+  } catch (error) {
+    console.error('Error fetching AI response:', error);
+    return 'Sorry, something went wrong. Please try again.';
+  }
+};
+
 // Show initial AI message with delay
-onMounted(() => {
+onMounted(async () => {
   isTyping.value = true;
-  setTimeout(() => {
+  setTimeout(async () => {
+    const initialResponse = await fetchAiResponse('', true);
     messages.value.push({
       role: 'ai',
-      content: 'Hello! How can I assist you today?',
+      content: initialResponse,
     });
     isTyping.value = false;
     scrollToBottom();
@@ -42,7 +61,7 @@ onMounted(() => {
 });
 
 // Handle sending a message
-const sendMessage = () => {
+const sendMessage = async () => {
   if (!userInput.value.trim()) return;
 
   // Add user message instantly
@@ -52,15 +71,17 @@ const sendMessage = () => {
   });
 
   // Clear input and scroll
+  const userMessage = userInput.value;
   userInput.value = '';
   scrollToBottom();
 
-  // Show typing indicator and delay AI response
+  // Show typing indicator and fetch AI response
   isTyping.value = true;
-  setTimeout(() => {
+  setTimeout(async () => {
+    const aiResponse = await fetchAiResponse(userMessage, false);
     messages.value.push({
       role: 'ai',
-      content: 'Thanks for your question! I’m analyzing it now...',
+      content: aiResponse,
     });
     isTyping.value = false;
     scrollToBottom();
