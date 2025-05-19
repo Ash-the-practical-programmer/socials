@@ -1,6 +1,6 @@
 <template>
     <div class="w-auto h-auto rounded-full overflow-hidden flex items-center justify-center bg-neutral pl-0.8">
-        <svg class="h-8 w-8 sm:h-6 sm:w-6 p-1" viewBox="0 0 107.6923076923077 106.49572649572649"
+        <svg class="h-6 w-6 sm:h-6 sm:w-6 p-1" viewBox="0 0 107.6923076923077 106.49572649572649"
             xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(-5.982905982905983, -7.179487179487179) scale(1.1965811965811965)" fill="var(--color-primary)">
                 <!-- Your SVG Path Data Goes Here -->
