@@ -3,7 +3,9 @@
         <div class="container mx-auto px-4">
             <div class="navbar py-3">
                 <div class="navbar-start">
-                    <AppLogo />
+                    <router-link to="/" class="btn btn-ghost px-2 normal-case">
+                        <AppLogo />
+                    </router-link>
                 </div>
                 <div class="navbar-end">
                     <label v-if="beyondBeta" class="swap swap-rotate pr-2">
@@ -25,7 +27,7 @@
                         </svg>
                     </label>
                     <a href="#waitlist"
-                        class="btn text-[17px] btn-xs btn-primary hover:shadow-lg transition-shadow font-normal">
+                        class="btn text-[17px] btn-xs btn-primary hover:shadow-lg transition-shadow">
                         Join Waitlist
                     </a>
                 </div>

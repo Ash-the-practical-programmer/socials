@@ -1,32 +1,38 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="flex flex-col min-h-screen bg-base-100 text-base-content antialiased">
     <AppHeader />
     <main class="flex-grow">
-      <HeroSection />
-      <ProblemSolutionSection />
-      <AIChatResearchDemo />
-      <CallToActionWaitlistSection />
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </main>
     <AppFooter />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import AppHeader from './components/layout/AppHeader.vue';
 import AppFooter from './components/layout/AppFooter.vue';
-import HeroSection from './components/landing/HeroSection.vue';
-import ProblemSolutionSection from './components/landing/ProblemSolutionSection.vue';
-import AIChatResearchDemo from './components/landing/AIChatResearchDemo.vue';
-import CallToActionWaitlistSection from './components/landing/CallToActionWaitlistSection.vue';
-
-onMounted(() => {
-  document.title = 'DeepSocial AI | AI-Powered Social Insights';
-});
+// No onMounted for document.title here, as the router guard handles it.
 </script>
 
 <style>
-/* Add any truly global styles here if necessary, 
-   but prefer main.css or component-scoped styles */
-/* Ensure Inter font is loaded via index.html and applied via tailwind.config or main.css */
+/* Global transition styles (optional, but nice for page changes) */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Ensure your global styles from main.css are applied */
+/* For example, smooth scrolling if not handled by browser defaults */
+html {
+  scroll-behavior: smooth;
+}
 </style>
