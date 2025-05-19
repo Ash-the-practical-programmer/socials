@@ -1,52 +1,70 @@
 <!-- src/components/AiChat.vue -->
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, inject, nextTick, onMounted } from 'vue';
 import AiAvatar from './icons/AiAvatar.vue'; // Adjust path as needed
-import { inject } from 'vue';
 
-// Inject config (for app name, as in previous component)
-const config = inject('config');
+// Inject config with fallback
+const config = inject('config', { appName: 'AI Assistant' });
 
 // Emit close event
 defineEmits(['close']);
 
 // Chat messages state
-const messages = ref([
-  {
-    role: 'ai',
-    content: 'Hello! How can I assist you today?',
-  },
-]);
+const messages = ref<{ role: 'user' | 'ai'; content: string }[]>([]);
+
+// Typing indicator state
+const isTyping = ref(false);
 
 // User input state
 const userInput = ref('');
 
-// Handle sending a message
-const sendMessage = () => {
-  if (!userInput.value.trim()) return;
-
-  // Add user message
-  messages.value.push({
-    role: 'user',
-    content: userInput.value,
-  });
-
-  // Simulate AI response (static for now, extend for API integration)
-  messages.value.push({
-    role: 'ai',
-    content: 'Thanks for your question! I’m analyzing it now...',
-  });
-
-  // Clear input
-  userInput.value = '';
-
-  // Scroll to bottom (after DOM update)
+// Scroll to bottom of chat
+const scrollToBottom = () => {
   nextTick(() => {
     const chatContainer = document.querySelector('.chat-container');
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   });
+};
+
+// Show initial AI message with delay
+onMounted(() => {
+  isTyping.value = true;
+  setTimeout(() => {
+    messages.value.push({
+      role: 'ai',
+      content: 'Hello! How can I assist you today?',
+    });
+    isTyping.value = false;
+    scrollToBottom();
+  }, 500); // 500ms delay
+});
+
+// Handle sending a message
+const sendMessage = () => {
+  if (!userInput.value.trim()) return;
+
+  // Add user message instantly
+  messages.value.push({
+    role: 'user',
+    content: userInput.value,
+  });
+
+  // Clear input and scroll
+  userInput.value = '';
+  scrollToBottom();
+
+  // Show typing indicator and delay AI response
+  isTyping.value = true;
+  setTimeout(() => {
+    messages.value.push({
+      role: 'ai',
+      content: 'Thanks for your question! I’m analyzing it now...',
+    });
+    isTyping.value = false;
+    scrollToBottom();
+  }, 500); // 500ms delay
 };
 
 // Handle Enter key press
@@ -56,6 +74,9 @@ const handleKeydown = (event: KeyboardEvent) => {
     sendMessage();
   }
 };
+
+// Debug: Log when component mounts
+console.log('AiChat mounted, config:', config);
 </script>
 
 <template>
@@ -82,7 +103,11 @@ const handleKeydown = (event: KeyboardEvent) => {
 
     <!-- Messages -->
     <div class="chat-container h-64 overflow-y-auto custom-scrollbar p-3 space-y-3">
-      <div v-for="(message, index) in messages" :key="index" :class="['chat', message.role === 'user' ? 'chat-end' : 'chat-start']">
+      <div
+        v-for="(message, index) in messages"
+        :key="index"
+        :class="['chat', message.role === 'user' ? 'chat-end' : 'chat-start']"
+      >
         <div v-if="message.role === 'ai'" class="chat-image avatar">
           <AiAvatar class="w-5 h-5 text-base-content/80" />
         </div>
@@ -94,6 +119,15 @@ const handleKeydown = (event: KeyboardEvent) => {
           ]"
         >
           {{ message.content }}
+        </div>
+      </div>
+      <!-- Typing Indicator -->
+      <div v-if="isTyping" class="chat chat-start">
+        <div class="chat-image avatar">
+          <AiAvatar class="w-5 h-5 text-base-content/80" />
+        </div>
+        <div class="chat-bubble bg-base-200 text-base-content rounded-lg px-3 py-2">
+          <span class="loading loading-dots loading-xs"></span>
         </div>
       </div>
     </div>
@@ -132,6 +166,6 @@ const handleKeydown = (event: KeyboardEvent) => {
   transition: background-color 0.2s ease;
 }
 .chat-bubble:hover {
-  @apply bg-opacity-90;
+  @apply bg-opacity-75;
 }
 </style>
