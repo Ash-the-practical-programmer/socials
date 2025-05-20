@@ -28,7 +28,7 @@
                 stroke="var(--color-warning)" class="w-16 h-16">
                 <defs>
                   <linearGradient id="warningToSuccessGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color: var(--color-warning);" />
+                    <stop offset="0%" style="stop-color: var(--color-primary);" />
                     <stop offset="100%" style="stop-color: var(--color-success);" />
                   </linearGradient>
                 </defs>

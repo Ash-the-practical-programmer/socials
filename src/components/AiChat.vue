@@ -166,6 +166,6 @@ console.log('AiChat mounted, config:', config);
   transition: background-color 0.2s ease;
 }
 .chat-bubble:hover {
-  @apply bg-opacity-75;
+  @apply opacity-75;
 }
 </style>
