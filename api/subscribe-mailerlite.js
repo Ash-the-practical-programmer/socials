@@ -12,8 +12,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Please provide a valid email address.' });
   }
 
-  const MAILERLITE_API_KEY = process.env.VITE_MAILERLITE_API_KEY;
-  const MAILERLITE_GROUP_ID = process.env.VITE_MAILERLITE_GROUP_ID;
+  const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
+  const MAILERLITE_GROUP_ID = process.env.MAILERLITE_GROUP_ID;
 
   if (!MAILERLITE_API_KEY || !MAILERLITE_GROUP_ID) {
     console.error('MailerLite environment variables not set.');

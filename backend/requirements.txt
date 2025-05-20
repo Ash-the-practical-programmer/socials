@@ -26,3 +26,7 @@ typing-inspection==0.4.0
 urllib3==2.4.0
 uvicorn==0.34.2
 websockets==15.0.1
+pytest  # Added for testing
+httpx   # Added for TestClient, and already present, ensure version compatibility if specified
+# Consider adding pytest-asyncio if your tests need to run async functions directly,
+# though TestClient handles the async nature of FastAPI endpoints.
