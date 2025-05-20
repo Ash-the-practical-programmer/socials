@@ -56,7 +56,7 @@ const handleSubmit = async () => {
   messageType.value = '';
 
   try {
-    const response = await fetch('https://socials-waitlist.vercel.app/api/send-gmail', {
+    const response = await fetch(import.meta.env.VITE_WAITLIST_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

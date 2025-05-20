@@ -20,7 +20,7 @@ const isTyping = ref(false);
 const userInput = ref('');
 
 // Backend API URL
-const API_URL = 'http://localhost:8000/chat';
+const API_URL = import.meta.env.VITE_CHAT_API_URL;
 
 // Scroll to bottom of chat
 const scrollToBottom = () => {
