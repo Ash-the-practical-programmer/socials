@@ -1,15 +1,15 @@
 <!-- src/components/AiOverlayButton.vue -->
-<script setup lang="ts">
-import { ref } from 'vue';
-import AiAvatar from './icons/AiAvatar.vue'; // Adjust path as needed
-
+<script setup>
+import { ref } from 'vue'
+import AiAvatar from './icons/AiAvatar.vue' // Adjust path as needed
+import AiChat from './AiChat.vue'
 // State to control chat visibility
-const isChatOpen = ref(false);
+const isChatOpen = ref(false)
 
 // Toggle chat visibility
 const toggleChat = () => {
-  isChatOpen.value = !isChatOpen.value;
-};
+  isChatOpen.value = !isChatOpen.value
+}
 </script>
 
 <template>
