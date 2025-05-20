@@ -9,7 +9,7 @@
           </g>
         </svg>
         <input type="email" id="email" v-model="email" required placeholder="Enter your email address"
-          class="input text-[18px] input-bordered input-sm join-item w-full focus:outline-none focus:ring-offset-2 focus:ring-offset-base-100 transition-shadow duration-200 ease-in-out pr-0"
+          class="input text-[18px] input-bordered input-sm join-item w-full focus:outline-none focus:ring-offset-2 focus:ring-offset-base-100 transition-shadow duration-200 ease-in-out"
           :disabled="isSubmitting || hasSubmitted" aria-label="Email for waitlist" />
       </label>
       <div class="validator-hint hidden">Enter valid email address</div>
